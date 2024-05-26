@@ -11,7 +11,7 @@ resource "aws_vpc" "my_vpc" {
   }
 }
 
-# Create private subnet
+# Create private subnets
 resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = var.private_subnet_cidr_block_1
@@ -21,6 +21,7 @@ resource "aws_subnet" "private_subnet_1" {
     Name = "private-subnet-1"
   }
 }
+
 resource "aws_subnet" "private_subnet_2" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = var.private_subnet_cidr_block_2
@@ -42,19 +43,41 @@ resource "aws_eks_cluster" "my_cluster" {
     subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
   }
 }
-# Creates iam roles
-resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
-  role       = aws_iam_role.eks_worker_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+
+# Create IAM role for EKS worker nodes
+resource "aws_iam_role" "eks_worker_role" {
+  name = "eks-worker-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
 }
+POLICY
+}
+
+# Attach IAM policies to the worker role
+resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.eks_worker_role.name
+}
+
 resource "aws_iam_role_policy_attachment" "example-AmazonEKS_CNI_Policy" {
-  role       = var.eks_worker_role_arn
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.eks_worker_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryReadOnly" {
-  role       = var.eks_worker_role_arn
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.eks_worker_role.name
 }
 
 # Create EKS worker nodes
@@ -80,9 +103,6 @@ resource "aws_eks_node_group" "my_node_group" {
     aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
-
-
-
 
 # Create EC2 instance
 resource "aws_instance" "my_instance" {

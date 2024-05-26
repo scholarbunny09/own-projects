@@ -71,10 +71,10 @@ variable "ssh_user" {
 
 variable "private_key_path" {
   description = "Path to the private key for SSH access"
-  default     = "~/.ssh/your_private_key.pem"
+  default     = "/home/ec2-user/own-projects/terraform/my-key-pair.pem"
 }
 
 variable "public_key" {
   description = "Public key for SSH access"
-  default     = "YOUR_PUBLIC_KEY"
+  default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2436KgiOoINcxX2M6HYA171K29YvSEIPzj5sY96w6b3kRoKz8UBiQQPS+imwb71TBfcP6YVFCluygQTN4qbsLkWPO7kgubWwS55iUggsr3rrzy4W4SQlxLwSLFD/UlZCJ8OsHM3/pj6fDKkKRNO4l1eUyUCpPKT9vdgxgAm6qLWDntr1SGEZiLwFRCjSYHxjXXqaGSiUCITIUUzaEi/NnrLNdkjGaGoV1p/f5WfDHtibRLJgGNBCxVN7h/IaxcbgnhSV8Bt+eL4fIfbd6kBvH3PeyPfquYk+wWc0G6CsecrIgUcV2IrOO2ET9H1xuVjNBeYXsoH4SHOdSXu7K6n7cSogSjL7vOgHXyG4rGNxn/FWgq5jjiGfFhhdGzVKGH3nJ7tkHdk0HODghTT9WMfYhNpEeBzhhMPh5Byub9VvIHkRnqW1FjSS2KgAI7zRlsMzRHGESSuqzsrDcNalw6Jw8FcecqJ2LPBqw6kQP0Cm88ExjeFm8vvn8u1vhi6RxQ0X4S7AW4SBX3ZDwUY28nQPVQAlGPk47gKsP9cWlEbwbAx5QH9CLWWK0+QzwY5CKD4DfaM5aRGNBtqUYHJPysbJt094Qw+hI+9+GXPd2Xeyr8QTxdQ8SMkF9T1XCsftSqySQuRy7lpGOn76cNcNmLjkn8VU2F8YIL1ARjvEmaYlRSQ== ec2-user@ip-172-31-37-165.ap-south-1.compute.internal"
 }

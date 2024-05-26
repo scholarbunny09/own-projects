@@ -82,7 +82,7 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryRea
 
 # Create EKS worker nodes
 resource "aws_eks_node_group" "my_node_group" {
-  cluster_name    = var.cluster_name
+  cluster_name    = aws_eks_cluster.my_cluster.name
   node_group_name = "my_node_group"
   node_role_arn   = aws_iam_role.eks_worker_role.arn
   subnet_ids      = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]

@@ -12,7 +12,7 @@ resource "aws_vpc" "my_vpc" {
 }
 
 # Create private subnet
-resource "aws_subnet" "private_subnet1" {
+resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = var.private_subnet_cidr_block_1
   availability_zone = var.availability_zone_1
@@ -42,7 +42,6 @@ resource "aws_eks_cluster" "my_cluster" {
     subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
   }
 }
-
 # Creates iam roles
 resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
   role       = aws_iam_role.eks_worker_role.name
@@ -63,7 +62,7 @@ resource "aws_eks_node_group" "my_node_group" {
   cluster_name    = var.cluster_name
   node_group_name = "my_node_group"
   node_role_arn   = aws_iam_role.eks_worker_role.arn
-  subnet_ids = [ aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id ]
+  subnet_ids      = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 
   scaling_config {
     desired_size = 1
@@ -81,6 +80,7 @@ resource "aws_eks_node_group" "my_node_group" {
     aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
 
 
 

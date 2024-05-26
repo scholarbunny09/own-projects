@@ -5,7 +5,7 @@ output "vpc_id" {
 
 output "private_subnet_id" {
   description = "ID of the created private subnet"
-  value       = aws_subnet.private_subnet.id
+  value       = aws_subnet.private_subnet_1.id  # Update to match your specific subnet resource
 }
 
 output "eks_cluster_name" {

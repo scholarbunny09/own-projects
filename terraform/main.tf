@@ -12,13 +12,22 @@ resource "aws_vpc" "my_vpc" {
 }
 
 # Create private subnet
-resource "aws_subnet" "private_subnet" {
+resource "aws_subnet" "private_subnet1" {
   vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = var.private_subnet_cidr_block
-  availability_zone = var.availability_zone
+  cidr_block        = var.private_subnet_cidr_block_1
+  availability_zone = var.availability_zone_1
 
   tags = {
-    Name = "private-subnet"
+    Name = "private-subnet-1"
+  }
+}
+resource "aws_subnet" "private_subnet_2" {
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = var.private_subnet_cidr_block_2
+  availability_zone = var.availability_zone_2
+
+  tags = {
+    Name = "private-subnet-2"
   }
 }
 
@@ -30,13 +39,13 @@ resource "aws_eks_cluster" "my_cluster" {
   version = var.eks_version
 
   vpc_config {
-    subnet_ids = aws_subnet.private_subnet[*].id
+    subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
   }
 }
 
 # Creates iam roles
 resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
-  role       = var.eks_worker_role_arn
+  role       = aws_iam_role.eks_worker_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
 resource "aws_iam_role_policy_attachment" "example-AmazonEKS_CNI_Policy" {
@@ -53,7 +62,7 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryRea
 resource "aws_eks_node_group" "my_node_group" {
   cluster_name    = var.cluster_name
   node_group_name = "my_node_group"
-  node_role_arn   = var.eks_worker_role_arn
+  node_role_arn   = aws_iam_role.eks_worker_role.arn
   subnet_ids = [ aws_subnet.private_subnet.id ]
 
   scaling_config {

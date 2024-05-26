@@ -8,14 +8,22 @@ variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
-variable "private_subnet_cidr_block" {
+variable "private_subnet_cidr_block_1" {
   description = "CIDR block for the private subnet"
   default     = "10.0.1.0/24"
 }
+variable "private_subnet_cidr_block_2" {
+  description = "CIDR block for the private subnet"
+  default     = "10.0.2.0/24"
+}
 
-variable "availability_zone" {
+variable "availability_zone_1" {
   description = "Availability zone for the private subnet"
   default     = "ap-south-1a"
+}
+variable "availability_zone_2" {
+  description = "Availability zone for the private subnet"
+  default     = "ap-south-1b"
 }
 
 variable "cluster_name" {

@@ -38,7 +38,7 @@ variable "eks_cluster_role_arn" {
 
 variable "eks_version" {
   description = "Version of the EKS cluster"
-  default     = "1.28"
+  default     = "1.29"
 }
 
 variable "eks_worker_role_arn" {

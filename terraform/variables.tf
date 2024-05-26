@@ -9,20 +9,22 @@ variable "vpc_cidr_block" {
 }
 
 variable "private_subnet_cidr_block_1" {
-  description = "CIDR block for the private subnet"
+  description = "CIDR block for the private subnet 1"
   default     = "10.0.1.0/24"
 }
+
 variable "private_subnet_cidr_block_2" {
-  description = "CIDR block for the private subnet"
+  description = "CIDR block for the private subnet 2"
   default     = "10.0.2.0/24"
 }
 
 variable "availability_zone_1" {
-  description = "Availability zone for the private subnet"
+  description = "Availability zone for the private subnet 1"
   default     = "ap-south-1a"
 }
+
 variable "availability_zone_2" {
-  description = "Availability zone for the private subnet"
+  description = "Availability zone for the private subnet 2"
   default     = "ap-south-1b"
 }
 
@@ -31,30 +33,9 @@ variable "cluster_name" {
   default     = "my-eks-cluster"
 }
 
-variable "eks_cluster_role_arn" {
-  description = "ARN of the EKS cluster role"
-  default     = "arn:aws:iam::767397824843:role/amazon_eks_cluster_policy"
-}
-
 variable "eks_version" {
   description = "Version of the EKS cluster"
-  default     = "1.29"
-}
-
-variable "eks_worker_role_arn" {
-  description = "ARN of the EKS worker role"
-  default     = "arn:aws:iam::767397824843:role/worker_node_policy"
-}
-
-variable "instance_types" {
-  description = "Instance types for the EKS worker nodes"
-  type        = list(string)
-  default     = ["t2.micro"]
-}
-
-variable "desired_capacity" {
-  description = "Desired capacity of the EKS worker nodes"
-  default     = 3
+  default     = "1.28"
 }
 
 variable "instance_count" {

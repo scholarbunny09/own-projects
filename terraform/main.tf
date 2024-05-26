@@ -34,6 +34,21 @@ resource "aws_eks_cluster" "my_cluster" {
   }
 }
 
+# Creates iam roles
+resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
+  role       = var.eks_worker_role_arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
+resource "aws_iam_role_policy_attachment" "example-AmazonEKS_CNI_Policy" {
+  role       = var.eks_worker_role_arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+}
+
+resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryReadOnly" {
+  role       = var.eks_worker_role_arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
 # Create EKS worker nodes
 resource "aws_eks_node_group" "my_node_group" {
   cluster_name    = var.cluster_name

@@ -3,3 +3,4 @@ variable INSTANCE_TYPE {}
 variable PUB_SUBNET {}
 variable PRI_SUBNET {}
 variable VPC_ID {}
+variable KEY_NAME {}
